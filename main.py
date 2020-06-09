@@ -1,37 +1,59 @@
-print('-'*10 + '1' + '-'*10)
-n = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 123, 32, 102]
-for i in range(len(n)):
-    if n[i] % 2:
-        n[i] = n[i]**2
+print("-" * 10, 1, "-" * 10)
+a = int(input())
+print("bin\toct\tdec\thex")
+print( "  {0:b}\t  {0:o}\t  {0:d}\t  {0:x}".format(a) )
+
+print("-" * 10, 2, "-" * 10)
+a = input().strip().lower().replace(r"\t", "").replace( r"\b", "").replace( r"\n", "").strip()
+b = input().strip().lower().replace(r"\t", "").replace( r"\b", "").replace( r"\n", "").strip()
+if a == b:
+    print("Ok!")
+else:
+    print("Error!")
+
+print("-" * 10, 3, "-" * 10)
+a = input()
+b = input()
+at = True
+bt = True
+for i in range(len(a)):
+    if a[i] == a[-1 - i]:
+        at = True
+        continue
     else:
-        n[i] = 0
-print(n)
+        at = False
+        break
+for i in range(len(b)):
+    if b[i] == b[-1 - i]:
+        bt = True
+        continue
+    else:
+        bt = False
+        break
+print("Yes" if at and bt else "False")
 
-print('-'*10 + '2' + '-'*10)
-n = [1, 1, 1, 2, 2, 0, 0, 3, 3, 3, 3]
-for i in n:
-    while n.count(i) > 1:
-        n.remove(i)
-print(n)
+print("-" * 10, 4, "-" * 10)
+a = input()
+b = input()
+print(b[:len(b)//2] + a + b[len(b)//2:])
 
-print('-'*10 + '3' + '-'*10)
-n = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 123, 32, 102]
-max = n[0]
-min = n[0]
-for i in n:
-    if max < i:
-        max = i
-    
-    if min > i:
-        min = i
-print(max, min)
+print("-" * 10, 5, "-" * 10)
+a = input()
+for i in a:
+    if i.islower():
+        print(i.upper(), end="")
+    else:
+        print(i.lower(), end="")
 
-print('-'*10 + '4' + '-'*10)
-n1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 123, 32, 102]
-n2 = [1, 1, 1, 2, 2, 0, 0, 3, 3, 3, 3]
-
-for i in n1:
-    for j in n2:
-        if j == i:
-            print(j, end=' ')
-            break
+print("-" * 10, 6, "-" * 10)
+a = input()
+dot = a.count('.')
+a = list(a)
+a.remove('.')
+a = ''.join(a)
+if a.isnumeric() and dot and dot < 2:
+    print("float")
+elif a.isnumeric():
+    print("int")
+else:
+    print("str")
