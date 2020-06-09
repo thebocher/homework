@@ -1,15 +1,20 @@
 print("-" * 10, 1, "-" * 10)
 a = int(input())
-print(" bin\t oct\t dec\t hex")
 bin = f'{a:b}'
 oct = f"{a:o}"
 dec = f"{a:d}"
 hex = f"{a:x}"
 print(
-    " " * (4 - len(bin)) + f"{bin}\t" + \
-    " " * (4 - len(oct)) + f"{oct}\t" + \
-    " " * (4 - len(dec)) + f"{dec}\t" + \
-    " " * (4 - len(hex)) + f"{hex}\t"
+    " " * (len(bin) - 3) + f"bin" + " " * 4 + \
+    " " * (len(oct) - 3) + f"oct" + " " * 4 + \
+    " " * (len(dec) - 3) + f"dec" + " " * 4 + \
+    " " * (len(hex) - 3) + f"hex"
+    )
+print(
+    " " * (3 - len(bin)) + f"{bin}" + " " * 4 + \
+    " " * (3 - len(oct)) + f"{oct}" + " " * 4 + \
+    " " * (3 - len(dec)) + f"{dec}" + " " * 4 + \
+    " " * (3 - len(hex)) + f"{hex}"
 )
 
 print("-" * 10, 2, "-" * 10)
