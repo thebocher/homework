@@ -46,13 +46,21 @@ def func_for_4(a):
 print(func_for_4('text'))
 
 print('-' * 10, 5, '-' * 10)
-def dec5(arg=0):
-    def outer(func):
+def dec5(func):
+    if not callable(func):
+        arg = func
+        def outer(func):
+            def inner(*a, **kw):
+                return f'{func(*a, **kw)}, arg = {arg}'
+            return inner
+        return outer
+    else:
+        arg = None
         def inner(*a, **kw):
             return f'{func(*a, **kw)}, arg = {arg}'
         return inner
-    return outer
-@dec5()
+
+@dec5(123)
 def func_for_5(b):
     return b
 print(func_for_5('func5'))
