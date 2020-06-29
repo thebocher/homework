@@ -38,25 +38,27 @@
 
 print('                 2')
 class Range:
-    def __init__(self, start, end=0, step=1):
-        if not end:
-            self.end = start-1
-            self.start = -1
-        elif step < 0:
-            self.start = start+1
-            self.end = end+1
-        else:
-            self.start = start-1
-            self.end = end-1
+    def __init__(self, start=None, end=0, step=1, /):
+        if not start:
+            raise TypeError('Range expected 1 argument, got 0')
+        elif not step:
+            raise ValueError('Range() arg 3 must not be zero')
+        
+        if start and not end:
+            self.end = start-step
+            self.start = 0-step
 
-        if not step:
-            raise ValueError('step must not be 0')
+        elif start and end:
+            self.start = start-step
+            self.end = end-step
+
         self.step = step
-
+        
     def __iter__(self):
         return self
 
     def __next__(self):
+
         if self.start >= self.end and self.step > 0:
             raise StopIteration
         
@@ -66,8 +68,41 @@ class Range:
         self.start += self.step
         return self.start
 
-for i in Range(1, 10):
+# print('Range ')
+# for i in Range():
+#    print(i)
+
+print('Range 1, 2, 0')
+for i in Range(1, 2, 0):
    print(i)
+
+print('Range 1, 2, 3')
+for i in Range(1, 2, 3):
+   print(i)
+
+print('Range 1, 2')
+for i in Range(1, 2):
+   print(i)
+
+print('Range 2, 1')
+for i in Range(2, 1):
+   print(i)
+
+print('Range 1')
+for i in Range(1):
+   print(i)
+
+print('Range 10, 1, -1')
+for i in Range(10, 1, -1):
+   print(i)
+
+print('Range 1, 10, 10')
+for i in Range(1, 10, 10):
+   print(i)
+
+
+
+
 
  print('                 3')
  class Str(str):
