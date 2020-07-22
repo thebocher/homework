@@ -70,14 +70,14 @@ class ChatRequestHandler(socketserver.StreamRequestHandler):
             self.request.send(self.to_json_and_add_end(data).encode(encoding='ascii'))
 
     def server_to_all_clients(self, data):
+        print(f'<server to all clients>:', self.to_json_and_add_end(data))
         for client in self.users:
             self.server_to_client(data, client=self.users[client])
 
     def server_to_client_private(self, user):
         to_user = user.get('to')
         private_message = {'name': user['name'], 'message': user['message']}
-        client = self.users[to_user]
-        print(f'<server to all clients>:', self.to_json_and_add_end(private_message))
+        client = self.users.get(to_user)
         self.server_to_client(private_message, client=client)
 
     def to_json_and_add_end(self, json_data):

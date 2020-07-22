@@ -39,20 +39,21 @@ while True:
 
 
 def wait_for_message():
-    while True:
-        message = input().strip()
-        json_info = {
-            "name": name,
-            "message": ' '.join(message[5:].split()[1:]) if message.startswith('user:') else message,
-            "to": message[5:].split()[0] if message.startswith('user:') else ''
-        }
-        socket_.send(to_json_and_add_end(json_info).encode(encoding='ascii'))
+        while True:
+            recv = from_json_del_end(socket_.recv(2048).decode())
+            print(f'\r{recv}\nYour message: ', end='')
 
 thread = threading.Thread(target=wait_for_message, daemon=True)
 thread.start()
+print('Your message :', end=' ')
 while True:
-    recv = from_json_del_end(socket_.recv(2048).decode())
-    print(f'\r{recv}\nYour message: ', end='')
+    message = input().strip()
+    json_info = {
+        "name": name,
+        "message": ' '.join(message[5:].split()[1:]) if message.startswith('user:') else message,
+        "to": message[5:].split()[0] if message.startswith('user:') else ''
+    }
+    socket_.send(to_json_and_add_end(json_info).encode(encoding='ascii'))
     
 
 socket_.close()
