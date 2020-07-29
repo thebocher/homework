@@ -2,6 +2,10 @@ import socketserver
 
 import json
 
+from dz_logger import get_dz_logger
+
+import logging
+
 
 
 HTTP_PORT = 80
@@ -11,6 +15,21 @@ IP_ROUTER = '192.168.0.1' # 192.168.1.1
 
 IP_HOST= '185.189.185.50'
 
+
+# LOGGING_LEVEL = logging.DEBUG
+
+# logging.basicConfig(level=LOGGING_LEVEL)
+
+# dz_fmt = logging.Formatter(fmt='%(asctime)s - %(name)s - %(message)s')
+
+# dz_handler = logging.Handler()
+# dz_handler.setFormatter(dz_fmt)
+
+# dz_logger = logging.getLogger('dz_13')
+# dz_logger.addHandler(dz_handler)
+# dz_logger.propagate = False
+
+# dz_logger.debug('debug')
 
 class ChatTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
