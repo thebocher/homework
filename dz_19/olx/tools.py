@@ -7,7 +7,7 @@ from constants import BASE_URL, PLACEHOLDER, SEARCH_PATTERN
 
 def get_url() -> str:
     """Get url for search"""
-    query = input()
+    query = input('Your query: ')
     return prepare_url(query)
 
 
