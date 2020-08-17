@@ -3,6 +3,7 @@ from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 
 from user import User
 
+import hashlib
 
 
 app = Flask(__name__)
@@ -28,42 +29,68 @@ def index():
         if_no=redirect(url_for('unauthorized'))
     )
     
-@app.route('/registration/')
+@app.route('/registration/', methods=['POST', 'GET'])
 def registration():
-    params = request.args
-    login = params.get('login')
-    password = params.get('password')
+    form_html = """<form method="POST" action="/registration/">
+    <input name="login" placeholder="Your login" type="text">
+    <input name="password" placeholder="Your Password" type="password">
+    <button>Register</button>
+</form>"""
+    if request.method == 'GET':
+        return form_html
+    elif request.method == 'POST':
+        form = request.form
+        login = form.get('login')
+        password = hashlib.sha1(
+            form.get('password').encode()
+        ).hexdigest()
+        # print(password)
+        
+        # return jsonify(request.form)
+    # params = request.args
+    # login = params.get('login')
+    # password = params.get('password')
     
-    if not login and not password:
-        return 'No login and password provided.'
-    elif not login:
-        return 'No login provided.'
-    elif not password:
-        return 'No password provided.'
-    
-    user = User(login=login, password=password)
-    try:
-        user.save()
-    except:
-        return f'Try another login'        
-    return f'Registration completed!'
+        if not login and not password:
+            return f'No login and password provided.{form_html}'
+        elif not login:
+            return f'No login provided.{form_html}'
+        elif not password:
+            return f'No password provided.{form_html}'
+        
+        user = User(login=login, password=password)
+        try:
+            user.save()
+        except:
+            return f'Try another login.{form_html}'
+        return 'Successfully registered.'    
 
-@app.route('/login/')
+@app.route('/login/', methods=['POST', 'GET'])
 def login():
-    params = request.args
-    param_login = params.get('login')
-    param_password = params.get('password')
+    form_html = """<form method="POST" action="/login/">
+    <input name="login" placeholder="Your login" type="text">
+    <input name="password" placeholder="Your Password" type="password">
+    <button>Login</button>
+</form>"""
+    if request.method == 'POST':
+        form = request.form
+        login = form.get('login')
+        password = hashlib.sha1(
+            form.get('password').encode()
+        ).hexdigest()
 
-    user = User.objects.filter(login=param_login)
-    if not user:
-        return 'Invalid login.'
-    elif user[0].password != param_password:
-        return 'Invalid password.'
-    
-    session['login'] = param_login
-    session['password'] = param_password
-    
-    return 'Login is successful.'
+        user = User.objects.filter(login=login)
+        if not user:
+            return f'Invalid login.{form_html}'
+        elif user[0].password != password:
+            return f'Invalid password.{form_html}'
+        
+        session['login'] = login
+        session['password'] = password
+        
+        return 'Login is successful.'
+    elif request.method == 'GET':
+        return form_html
 
 @app.route('/logout/')
 def logout():
